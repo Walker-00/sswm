@@ -23,7 +23,8 @@ use tracing_subscriber::{self, prelude::*};
 
 #[derive(Serialize, Deserialize, Debug, Default)]
 struct WMConfig {
-    bindings: HashMap<String, String>,
+    spawn: HashMap<String, String>,
+    command: HashMap<String, String>,
 }
 
 fn raw_key_bindings(
@@ -48,7 +49,7 @@ fn raw_key_bindings(
         "M-S-Right" => send_layout_message(|| ExpandMain),
         "M-S-Left" => send_layout_message(|| ShrinkMain),
         "M-semicolon" => spawn("dmenu_run"),
-        "M-Return" => spawn("alacritty"),
+        "M-S-Return" => spawn("alacritty"),
         "M-A-Escape" => exit(),
 
         "M-slash" => Box::new(toggle_1),
@@ -56,9 +57,35 @@ fn raw_key_bindings(
     };
 
     if let Ok(cfg) = load::<WMConfig>("sswm", Some("config")) {
-        for i in cfg.bindings {
+        for i in cfg.spawn {
             let r = i.1.clone();
             raw_bindings.insert(i.0, key_handler(move |_, _| util::spawn(r.clone())));
+        }
+
+        for i in cfg.command {
+            let cmd_match: Option<Box<dyn KeyEventHandler<RustConn>>> =
+                match i.1.to_lowercase().as_str() {
+                    "killf" => Some(modify_with(|cs| cs.kill_focused())),
+                    "focdw" => Some(modify_with(|cs| cs.focus_down())),
+                    "focup" => Some(modify_with(|cs| cs.focus_up())),
+                    "swpdw" => Some(modify_with(|cs| cs.swap_down())),
+                    "swpup" => Some(modify_with(|cs| cs.swap_up())),
+                    "togtg" => Some(modify_with(|cs| cs.toggle_tag())),
+                    "nexsc" => Some(modify_with(|cs| cs.next_screen())),
+                    "presc" => Some(modify_with(|cs| cs.previous_screen())),
+                    "nexly" => Some(modify_with(|cs| cs.next_layout())),
+                    "prely" => Some(modify_with(|cs| cs.previous_layout())),
+                    "incmn" => Some(send_layout_message(|| IncMain(1))),
+                    "decmn" => Some(send_layout_message(|| IncMain(-1))),
+                    "expmn" => Some(send_layout_message(|| ExpandMain)),
+                    "shkmn" => Some(send_layout_message(|| ShrinkMain)),
+                    "exits" => Some(exit()),
+                    _ => None,
+                };
+
+            if let Some(cmd) = cmd_match {
+                raw_bindings.insert(i.0, cmd);
+            }
         }
     }
 
