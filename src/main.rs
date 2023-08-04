@@ -1,3 +1,4 @@
+use directories::BaseDirs;
 use penrose::{
     builtin::{
         actions::{exit, modify_with, send_layout_message, spawn},
@@ -11,8 +12,14 @@ use penrose::{
     x11rb::RustConn,
     Result,
 };
-use std::collections::HashMap;
+use serde::{Deserialize, Serialize};
+use std::{collections::HashMap, fs::File};
 use tracing_subscriber::{self, prelude::*};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct WMConfig {
+    bindings: HashMap<String, String>,
+}
 
 fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
     let mut raw_bindings = map! {
@@ -36,6 +43,8 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-Return" => spawn("alacritty"),
         "M-A-Escape" => exit(),
     };
+
+    let config_dir = BaseDirs::new().unwrap().config_dir();
 
     for tag in &["1", "2", "3", "4", "5", "6", "7", "8", "9"] {
         raw_bindings.extend([
