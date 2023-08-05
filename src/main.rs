@@ -5,16 +5,23 @@ use std::collections::HashMap;
 use penrose::{
     builtin::{
         actions::{exit, key_handler, modify_with, send_layout_message, spawn},
-        layout::messages::{ExpandMain, IncMain, ShrinkMain},
+        hooks::SpacingHook,
+        layout::{
+            messages::{ExpandMain, IncMain, ShrinkMain},
+            transformers::{Gaps, ReflectHorizontal, ReserveTop},
+            MainAndStack,
+        },
     },
     core::{
         bindings::{parse_keybindings_with_xmodmap, KeyEventHandler},
+        layout::LayoutStack,
         Config, WindowManager,
     },
     extensions::hooks::{
-        add_named_scratchpads, manage::FloatingCentered, NamedScratchPad, ToggleNamedScratchPad,
+        add_ewmh_hooks, add_named_scratchpads, manage::FloatingCentered, NamedScratchPad,
+        SpawnOnStartup, ToggleNamedScratchPad,
     },
-    map, util,
+    map, stack, util,
     x::query::ClassName,
     x11rb::RustConn,
     Result,
@@ -105,9 +112,25 @@ fn raw_key_bindings(
     raw_bindings
 }
 
+fn layouts() -> LayoutStack {
+    let max_main = 1;
+    let ratio = 0.6;
+    let ratio_step = 0.1;
+    let outer_px = 5;
+    let inner_px = 5;
+    let top_px = 18;
+
+    stack!(
+        MainAndStack::side(max_main, ratio, ratio_step),
+        ReflectHorizontal::wrap(MainAndStack::side(max_main, ratio, ratio_step)),
+        MainAndStack::bottom(max_main, ratio, ratio_step)
+    )
+    .map(|layout| ReserveTop::wrap(Gaps::wrap(layout, outer_px, inner_px), top_px))
+}
+
 fn main() -> Result<()> {
     tracing_subscriber::fmt()
-        .with_env_filter("info")
+        .with_env_filter("trace")
         .finish()
         .init();
 
@@ -126,11 +149,24 @@ fn main() -> Result<()> {
         true,
     );
 
+    let layout_hook = Box::new(SpacingHook {
+        inner_px: 5,
+        outer_px: 5,
+        top_px: 18,
+        bottom_px: 0,
+    });
+
+    let config = add_ewmh_hooks(Config {
+        default_layouts: layouts(),
+        layout_hook: Some(layout_hook),
+        ..Config::default()
+    });
+
     let conn = RustConn::new()?;
     let key_bindings = parse_keybindings_with_xmodmap(raw_key_bindings(toggle_1, toggle_2))?;
 
     let wm = add_named_scratchpads(
-        WindowManager::new(Config::default(), key_bindings, HashMap::new(), conn)?,
+        WindowManager::new(config, key_bindings, HashMap::new(), conn)?,
         vec![nsp_1, nsp_2],
     );
 
