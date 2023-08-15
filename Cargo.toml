@@ -25,11 +25,5 @@ git = "https://github.com/smithay/smithay"
 version = "0.3"
 rev = "c569c87"
 features = [
-    "backend_winit",
-    "wayland_frontend",
     "desktop",
-    "backend_session_libseat",
-    "backend_drm",
-    "renderer_multi",
-    "renderer_glow",
 ]
