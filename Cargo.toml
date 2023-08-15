@@ -11,9 +11,25 @@ lto = true
 codegen-units = 1
 
 [dependencies]
+anyhow = "1.0.72"
 confy = { version = "0.5.1", features = ["yaml_conf"], default-features = false }
 penrose = "0.3.3"
 penrose_ui = "0.3.3"
-serde = { version = "1.0.181", features = ["derive"] }
+serde = { version = "1.0.183", features = ["derive"] }
 tracing = "0.1.37"
 tracing-subscriber ="0.3.17"
+xcursor = "0.3.4"
+
+[dependencies.smithay]
+git = "https://github.com/smithay/smithay"
+version = "0.3"
+rev = "c569c87"
+features = [
+    "backend_winit",
+    "wayland_frontend",
+    "desktop",
+    "backend_session_libseat",
+    "backend_drm",
+    "renderer_multi",
+    "renderer_glow",
+]
