@@ -83,7 +83,7 @@ pub fn wayrun() -> anyhow::Result<(), anyhow::Error> {
     let space = Space::<Window>::default();
     let data_device_state = DataDeviceState::new::<state::State>(&dh);
 
-    let mut seat: Seat<state::State> = seat_state.new_wl_seat(&dh, "mwm_seat");
+    let mut seat: Seat<state::State> = seat_state.new_wl_seat(&dh, "sswm_seat");
     seat.add_keyboard(Default::default(), 500, 500)?;
     seat.add_pointer();
 
@@ -162,10 +162,21 @@ pub fn wayrun() -> anyhow::Result<(), anyhow::Error> {
                                     let keysym = handle.modified_sym();
 
                                     if press_state == KeyState::Pressed
-                                        && keysym == keysyms::KEY_t | keysyms::KEY_T
+                                        && (modifiers.logo)
+                                        && keysym == keysyms::KEY_f
                                     {
                                         return FilterResult::Intercept(Action::Spawn(
                                             "firefox-dev".to_string(),
+                                        ));
+                                    }
+
+                                    if press_state == KeyState::Pressed
+                                        && (modifiers.logo)
+                                        && (keysym == keysyms::KEY_KP_Enter
+                                            || keysym == keysyms::KEY_A)
+                                    {
+                                        return FilterResult::Intercept(Action::Spawn(
+                                            "alacritty".to_string(),
                                         ));
                                     }
 
