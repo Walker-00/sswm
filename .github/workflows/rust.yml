@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install Required Packages
-      run: sudo apt-get -y install libwayland-dev libxkbcommon-dev libudev-dev libinput-dev libgbm-dev libseat-dev libsystemd-dev
+      run: sudo apt-get -y install libwayland-dev libxkbcommon-dev libudev-dev libinput-dev libgbm-dev libseat-dev libsystemd-dev xorg libghc-x11-xft-dev
     - name: Run Check
       run: cargo check
     - name: Run Build
