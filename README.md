@@ -32,12 +32,12 @@ This `SSWM` is a part of the project `Project SS`.
 - [x] Multi-monitor support
 - [x] Altering layout (Application switching, changing master size...)
 - [x] Fullscreening windows
-- [x] Scratchpads
 - [x] Auto Start Commands
 - [x] Multiple Layouts
 - [x] Full compositor Support
 - [x] Hover to select windows
 - [x] Configuration
+- [ ] Scratchpads
 - [ ] Status Bar
 - [ ] Window decorations
 - [ ] Support Extended Window Manager Hints
