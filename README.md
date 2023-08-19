@@ -204,6 +204,10 @@ cargo install --path .
 sudo cp sswm.desktop sswm_way.desktop /usr/share/xsessions/.
 ```
 
+## [ScreenShot]
+![sswm_3](https://github.com/Walker-00/sswm/assets/85013114/e15db47c-a014-4945-ace0-f3aba30e8595)
+
+
 ## [Voices From Burma]
 As burmeses living in dictatorship is fucking hard.
 <br>
