@@ -1,0 +1,6 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=SSWM
+Comment=Tiling Window Manager
+Exec=sswm
+Type=Xsession
