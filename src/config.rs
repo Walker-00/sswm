@@ -1,25 +1,29 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug, Default)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct Action {
     pub keybind: String,
     pub action: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct Command {
     pub keybind: String,
     pub command: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Config {
     pub max_main: u32,
+    pub normal_bordar: u32,
+    pub focused_bordar: u32,
+    pub workspace_tags: Vec<String>,
     pub ratio: f32,
     pub ratio_step: f32,
     pub outer_gaps: u32,
     pub inner_gaps: u32,
     pub top_gaps: u32,
+    pub start_up: Vec<String>,
     pub commands: Vec<Command>,
     pub actions: Vec<Action>,
     pub xcommands: Vec<Command>,
@@ -30,9 +34,19 @@ pub struct Config {
 
 impl Default for Config {
     fn default() -> Self {
+        let mut workspace_tags = vec![];
+
+        for i in 1..9 {
+            workspace_tags.push(i.to_string());
+        }
+
         let cfg = Config {
             max_main: 1,
             ratio: 0.6,
+            normal_bordar: 0x00000000,
+            focused_bordar: 0xff0000ff,
+            workspace_tags,
+            start_up: vec![],
             ratio_step: 0.1,
             outer_gaps: 5,
             inner_gaps: 5,

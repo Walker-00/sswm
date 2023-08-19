@@ -9,15 +9,18 @@ use penrose::{
     },
     core::{
         bindings::{parse_keybindings_with_xmodmap, KeyEventHandler},
+        hooks::StateHook,
         layout::LayoutStack,
-        Config as PConfig, WindowManager,
+        Config as PConfig, State, WindowManager,
     },
     extensions::{actions::toggle_fullscreen, hooks::add_ewmh_hooks},
-    stack, util,
+    stack,
+    util::{self, spawn_with_args},
+    x::XConn,
     x11rb::RustConn,
-    Result,
+    Color, Result,
 };
-use std::collections::HashMap;
+use std::{borrow::Cow, collections::HashMap};
 use tracing::Level;
 use tracing_subscriber::{util::SubscriberInitExt, FmtSubscriber};
 
@@ -149,11 +152,32 @@ pub fn xrun(cfg: Config) -> Result<()> {
         .finish()
         .init();
 
+    let mut startup_hook1: String = "".into();
+
+    if !cfg.start_up.is_empty() {
+        for (e, i) in cfg.start_up.iter().enumerate() {
+            startup_hook1.push_str(i);
+            if cfg.start_up.len() > 1 && e + 1 < cfg.start_up.len() {
+                startup_hook1.push_str(" && ");
+            }
+        }
+    }
+
+    let mut startup_hook: Option<Box<dyn StateHook<RustConn>>> = None;
+
+    if !startup_hook1.is_empty() {
+        startup_hook = Some(SpawnOnStartupArg::boxed(startup_hook1));
+    }
+
     let mut xwm = Xwm::default();
-    let keybinds = xwm.handle_config(cfg);
+    let keybinds = xwm.handle_config(cfg.clone());
 
     let config = add_ewmh_hooks(PConfig {
         default_layouts: xwm.layouts(),
+        normal_border: Color::new_from_hex(cfg.normal_bordar),
+        focused_border: Color::new_from_hex(cfg.focused_bordar),
+        startup_hook,
+        tags: cfg.workspace_tags,
         ..PConfig::default()
     });
 
@@ -162,7 +186,30 @@ pub fn xrun(cfg: Config) -> Result<()> {
     let wm = WindowManager::new(config, key_bindings, HashMap::new(), conn)?;
 
     wm.run().unwrap();
-    util::spawn("feh --bg-scale wallpapers/sswmbg.jpg")?;
-    util::spawn("picom --experimental-backends")?;
     Ok(())
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SpawnOnStartupArg {
+    prog: Cow<'static, str>,
+}
+
+impl SpawnOnStartupArg {
+    pub fn boxed<X>(prog: impl Into<Cow<'static, str>>) -> Box<dyn StateHook<X>>
+    where
+        X: XConn,
+    {
+        Box::new(Self { prog: prog.into() })
+    }
+}
+
+impl<X> StateHook<X> for SpawnOnStartupArg
+where
+    X: XConn,
+{
+    fn call(&mut self, _state: &mut State<X>, _x: &X) -> Result<()> {
+        let args = ["-c", &self.prog];
+        spawn_with_args("bash", &args)?;
+        Ok(())
+    }
 }
