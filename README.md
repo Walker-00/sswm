@@ -9,15 +9,21 @@
 
 # SSWM
 Minimal, flexible &amp; user-friendly X and Wayland tiling window manager but with rust.
+<br>
 Feel Free to Open Issues and Pull Requests
 
 ## [Overview]
 
 SSWM mean `Saffron Spring Window Manager`.
+<br>
 Which [Saffron](https://en.wikipedia.org/wiki/Saffron_Revolution) and [Spring](https://en.wikipedia.org/wiki/Myanmar_protests_(2021%E2%80%93present)) are two most popular revolutions of burma ( which is my country )
+<br>
 You can call it as `Swim`, If `SSWM` is a little wired for you. (Which I got idea from [u/camguywhataguy](https://www.reddit.com/user/camguywhataguy))
+<br>
 Main Focus of the `SSWM` is to create `Freedom, User Friendly, Configurable, Fast and Safe` window manager for `Both X and Wayland`. 
+<br>
 Not Recommend to use For wayland, it's a little buggy.
+<br>
 This `SSWM` is a part of the project `Project SS`.
 
 ## [Features]
@@ -52,6 +58,7 @@ This `SSWM` is a part of the project `Project SS`.
 
 ## [Configuration]
 SSWM will auto generate config file to `$HOME/.config/sswm/config.yml`
+<br>
 SSWM use `.yaml` format for user-friendly configuration.
 
 ### [Config File]
@@ -100,6 +107,7 @@ If x and w specified commands and actions might be overrided to commands and act
 | ShrinkMain          | Shrink the main area.                         |
 
 Case doesn't matter when writing Actions name.
+<br>
 `kill`, `Kill`, `KiLL` all work.
 
 #### [Default Config File]
@@ -198,7 +206,11 @@ sudo cp sswm.desktop sswm_way.desktop /usr/share/xsessions/.
 
 ## [Voices From Burma]
 As burmeses living in dictatorship is fucking hard.
+<br>
 We all burmeses are asking for Justice, but all we got are bullets.
+<br>
 We all burmeses are want our democracy and our leaders back.
+<br>
 We all burmeses are fighting back to the Military Junta and Injustice.
+<br>
 As burmeses we really want other countries to join us, but also we still fighting our own.
