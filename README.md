@@ -22,7 +22,8 @@ Main focus of the `SSWM` is to create `Free, User Friendly, Configurable, Fast a
 <br>
 `SSWM` is a part of the project `Project SS`.
 <br>
-*Note: Not recommended to use with Wayland as of now.*
+<br>
+> *Note: Not recommended to use with Wayland as of now.*
 
 ## [Features]
 
@@ -156,7 +157,7 @@ wactions: []
 | wcommands       | List of Command Objects| List of keybindings and associated commands to execute For Wayland.             |
 | wactions        | List of Action Objects | List of keybindings and associated actions to perform For Wayland.              |
 
-If x and w specified commands and actions might overwrite the commands and actions if they are in conflict.
+If x and w specified commands and actions(e.g. xactions, wcommands), they might overwrite the commands and actions if they are in conflict.
 <br>
 <br>
 
@@ -182,7 +183,7 @@ If x and w specified commands and actions might overwrite the commands and actio
 | ExpandMain          | Expand the main area.                         |
 | ShrinkMain          | Shrink the main area.                         |
 
-Case doesn't matter when writing Actions name.
+Case doesn't matter for writing Actions name.
 <br>
 `kill`, `Kill`, `KiLL` all work.
 <br>
