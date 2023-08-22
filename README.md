@@ -10,21 +10,19 @@
 # SSWM
 Minimal, flexible &amp; user-friendly X and Wayland tiling window manager but with rust.
 <br>
-Feel Free to Open Issues and Pull Requests
+Feel free to open issues and make pull requests.
 
 ## [Overview]
 
-SSWM mean `Saffron Spring Window Manager`.
+SSWM means `Saffron Spring Window Manager`.
 <br>
-Which [Saffron](https://en.wikipedia.org/wiki/Saffron_Revolution) and [Spring](https://en.wikipedia.org/wiki/Myanmar_protests_(2021%E2%80%93present)) are two most popular revolutions of burma ( which is my country )
+[Saffron](https://en.wikipedia.org/wiki/Saffron_Revolution) and [Spring](https://en.wikipedia.org/wiki/Myanmar_protests_(2021%E2%80%93present)) are the two well-known revolutions in burma (my home country).
 <br>
-You can call it as `Swim`, If `SSWM` is a little wired for you. (Which I got idea from [u/camguywhataguy](https://www.reddit.com/user/camguywhataguy))
+Main focus of the `SSWM` is to create `Free, User Friendly, Configurable, Fast and Safe` window manager for both X and Wayland.
 <br>
-Main Focus of the `SSWM` is to create `Freedom, User Friendly, Configurable, Fast and Safe` window manager for `Both X and Wayland`. 
+`SSWM` is a part of the project `Project SS`.
 <br>
-Not Recommend to use For wayland, it's a little buggy.
-<br>
-This `SSWM` is a part of the project `Project SS`.
+*Note: Not recommended to use with Wayland as of now.*
 
 ## [Features]
 
@@ -59,56 +57,7 @@ This `SSWM` is a part of the project `Project SS`.
 ## [Configuration]
 SSWM will auto generate config file to `$HOME/.config/sswm/config.yml`
 <br>
-SSWM use `.yaml` format for user-friendly configuration.
-
-### [Config File]
-
-| Option          | Format                 | Description                                                                     |
-|-----------------|------------------------|---------------------------------------------------------------------------------|
-| max_main        | Integer                | Maximum number of windows in the main area of the layout.                       |
-| normal_border   | Integer                | Border color for normal (unfocused) windows.                                    |
-| focused_border  | Integer                | Border color for focused windows.                                               |
-| workspace_tags  | List of Strings        | List of workspace tags.                                                         |
-| ratio           | Float                  | Initial ratio of the main area to the whole screen.                             |
-| ratio_step      | Float                  | Step size for adjusting the main area ratio.                                    |
-| outer_gaps      | Integer                | Outer gaps (spacing) between windows and the screen edges.                      |
-| inner_gaps      | Integer                | Inner gaps (spacing) between windows.                                           |
-| top_gaps        | Integer                | Gaps at the top of the screen for panels or other elements.                     |
-| start_up        | List of Strings        | List of commands to run on startup.                                             |
-| commands        | List of Command Objects| List of keybindings and associated commands to execute For Both X and Wayland.  |
-| actions         | List of Action Objects | List of keybindings and associated actions to perform For Both X and Wayland.   |
-| xcommands       | List of Command Objects| List of keybindings and associated commands to execute For X11.                 |
-| xactions        | List of Action Objects | List of keybindings and associated actions to perform For X11.                  |
-| wcommands       | List of Command Objects| List of keybindings and associated commands to execute For Wayland.             |
-| wactions        | List of Action Objects | List of keybindings and associated actions to perform For Wayland.              |
-
-If x and w specified commands and actions might be overrided to commands and actions if they were conflit.
-
-### [Actions]
-
-| Actions             | Description                                   |
-|---------------------|-----------------------------------------------|
-| Kill                | Kill the focused window.                      |
-| Exit                | Exit the window manager.                      |
-| FocusNext           | Focus the next window.                        |
-| FocusPrevious       | Focus the previous window.                    |
-| SwapDown            | Swap the focused window with the one below.   |
-| SwapUp              | Swap the focused window with the one above.   |
-| ToggleFullScreen    | Toggle fullscreen mode for the focused window.|
-| FloatFocused        | Float the currently focused window.           |
-| ToggleTag           | Toggle the tag of the focused window.         |
-| FocusNextScreen     | Focus the next screen.                        |
-| FocusPreviousScreen | Focus the previous screen.                    |
-| NextLayout          | Switch to the next layout.                    |
-| PreviousLayout      | Switch to the previous layout.                |
-| IncMain             | Increase the size of the main area.           |
-| DecMain             | Decrease the size of the main area.           |
-| ExpandMain          | Expand the main area.                         |
-| ShrinkMain          | Shrink the main area.                         |
-
-Case doesn't matter when writing Actions name.
-<br>
-`kill`, `Kill`, `KiLL` all work.
+SSWM uses `.yaml` format for user-friendly configuration.
 
 #### [Default Config File]
 
@@ -140,7 +89,7 @@ commands:
     command: firefox
 actions:
   - keybind: M-S-x
-    action: eXit
+    action: eXit # case doesn't matter for action 
   - keybind: M-S-q
     action: kiLL
 xcommands:
@@ -184,7 +133,59 @@ wcommands:
     command: kitty
 wactions: []
 ```
+<br>
 
+### [Config Options]
+
+| Option          | Format                 | Description                                                                     |
+|-----------------|------------------------|---------------------------------------------------------------------------------|
+| max_main        | Integer                | Maximum number of windows in the main area of the layout.                       |
+| normal_border   | Integer                | Border color for normal (unfocused) windows.                                    |
+| focused_border  | Integer                | Border color for focused windows.                                               |
+| workspace_tags  | List of Strings        | List of workspace tags.                                                         |
+| ratio           | Float                  | Initial ratio of the main area to the whole screen.                             |
+| ratio_step      | Float                  | Step size for adjusting the main area ratio.                                    |
+| outer_gaps      | Integer                | Outer gaps (spacing) between windows and the screen edges.                      |
+| inner_gaps      | Integer                | Inner gaps (spacing) between windows.                                           |
+| top_gaps        | Integer                | Gaps at the top of the screen for panels or other elements.                     |
+| start_up        | List of Strings        | List of commands to run on startup.                                             |
+| commands        | List of Command Objects| List of keybindings and associated commands to execute For Both X and Wayland.  |
+| actions         | List of Action Objects | List of keybindings and associated actions to perform For Both X and Wayland.   |
+| xcommands       | List of Command Objects| List of keybindings and associated commands to execute For X11.                 |
+| xactions        | List of Action Objects | List of keybindings and associated actions to perform For X11.                  |
+| wcommands       | List of Command Objects| List of keybindings and associated commands to execute For Wayland.             |
+| wactions        | List of Action Objects | List of keybindings and associated actions to perform For Wayland.              |
+
+If x and w specified commands and actions might overwrite the commands and actions if they are in conflict.
+<br>
+<br>
+
+### [Actions]
+
+| Actions             | Description                                   |
+|---------------------|-----------------------------------------------|
+| Kill                | Kill the focused window.                      |
+| Exit                | Exit the window manager.                      |
+| FocusNext           | Focus the next window.                        |
+| FocusPrevious       | Focus the previous window.                    |
+| SwapDown            | Swap the focused window with the one below.   |
+| SwapUp              | Swap the focused window with the one above.   |
+| ToggleFullScreen    | Toggle fullscreen mode for the focused window.|
+| FloatFocused        | Float the currently focused window.           |
+| ToggleTag           | Toggle the tag of the focused window.         |
+| FocusNextScreen     | Focus the next screen.                        |
+| FocusPreviousScreen | Focus the previous screen.                    |
+| NextLayout          | Switch to the next layout.                    |
+| PreviousLayout      | Switch to the previous layout.                |
+| IncMain             | Increase the size of the main area.           |
+| DecMain             | Decrease the size of the main area.           |
+| ExpandMain          | Expand the main area.                         |
+| ShrinkMain          | Shrink the main area.                         |
+
+Case doesn't matter when writing Actions name.
+<br>
+`kill`, `Kill`, `KiLL` all work.
+<br>
 
 ## [Required Packages]
 - rustup
@@ -207,14 +208,11 @@ sudo cp sswm.desktop sswm_way.desktop /usr/share/xsessions/.
 ## [ScreenShot]
 ![sswm_3](https://github.com/Walker-00/sswm/assets/85013114/e15db47c-a014-4945-ace0-f3aba30e8595)
 
-
 ## [Voices From Burma]
-As burmeses living in dictatorship is fucking hard.
+Currently, Burma is under the Military rule and as a burmese, living under the dictatorship is extremely chellenging.
 <br>
-We all burmeses are asking for Justice, but all we got are bullets.
+But we stayed strong and are fighting against Military Junta's bullets and violence.
 <br>
-We all burmeses are want our democracy and our leaders back.
+We demand Justice and Democracy.
 <br>
-We all burmeses are fighting back to the Military Junta and Injustice.
-<br>
-As burmeses we really want other countries to join us, but also we still fighting our own.
+And we kindly want to ask for the International support and attention.
