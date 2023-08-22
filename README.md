@@ -90,7 +90,7 @@ commands:
     command: firefox
 actions:
   - keybind: M-S-x
-    action: eXit # case doesn't matter for action 
+    action: eXit # case doesn't matter for action names
   - keybind: M-S-q
     action: kiLL
 xcommands:
@@ -157,7 +157,7 @@ wactions: []
 | wcommands       | List of Command Objects| List of keybindings and associated commands to execute For Wayland.             |
 | wactions        | List of Action Objects | List of keybindings and associated actions to perform For Wayland.              |
 
-If x and w specified commands and actions(e.g. xactions, wcommands), they might overwrite the commands and actions if they are in conflict.
+If x and w specified commands and actions(e.g. xactions, wcommands), they might override the commands and actions if they are in conflict.
 <br>
 <br>
 
